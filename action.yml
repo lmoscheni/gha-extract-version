@@ -1,0 +1,5 @@
+name: 'GitHub Action: Extract Version'
+description: 'GitHub Action: Extract Version'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
