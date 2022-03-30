@@ -1,5 +1,9 @@
 name: 'GitHub Action: Extract Version'
 description: 'GitHub Action: Extract Version'
+inputs:
+  packageManagement:
+    required: true
+    description: "You need set with an supported package managament system like sbt, npm or mvn"
 runs:
   using: 'node16'
   main: 'dist/index.js'
