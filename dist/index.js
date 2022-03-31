@@ -8560,6 +8560,10 @@ exports.debug = debug; // for test
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var map = {
+	"./dist/package.json": [
+		881,
+		881
+	],
 	"./package.json": [
 		4147,
 		147
