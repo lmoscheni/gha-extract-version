@@ -29,14 +29,11 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu
-    name: A job notify a running pipeline
+    name: Extract version from package.json
     steps:
-      - name: Notify running pipeline
-        id: running
-        uses: lmoscheni/gha-gchat-pipeline-notifications@[version]
+      - name: Extract version
+        id: version
+        uses: lmoscheni/gha-extract-version@[version]
         with:
-          webHookURL: http://www.yourawesomeurl.com
-          env: Beta
-          version: YourAwesomeVersion
-          status: RUNNING
+          packageManagement: npm
 ```
