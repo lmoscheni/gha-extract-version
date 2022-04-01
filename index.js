@@ -3,9 +3,18 @@ import fs from "fs";
 import pomParser from "pom-parser";
 
 const filesByPackageManagement = {
-  npm: async () => {
-    const file = await import(`${process.env.GITHUB_WORKSPACE}/package.json`);
-    return Promise.resolve(file.default.version);
+  npm: () => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(`${process.env.GITHUB_WORKSPACE}/package.json`, "utf8", (error, file) => {
+        if (error) {
+          reject(error);
+        }
+
+        const json = JSON.parse(file);
+
+        resolve(json.version);
+      })
+    });
   },
   sbt: () => {
     return new Promise((resolve, reject) => {
