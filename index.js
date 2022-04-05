@@ -5,15 +5,19 @@ import pomParser from "pom-parser";
 const filesByPackageManagement = {
   npm: () => {
     return new Promise((resolve, reject) => {
-      fs.readFile(`${process.env.GITHUB_WORKSPACE}/package.json`, "utf8", (error, file) => {
-        if (error) {
-          reject(error);
+      fs.readFile(
+        `${process.env.GITHUB_WORKSPACE}/package.json`,
+        "utf8",
+        (error, file) => {
+          if (error) {
+            reject(error);
+          }
+
+          const json = JSON.parse(file);
+
+          resolve(json.version);
         }
-
-        const json = JSON.parse(file);
-
-        resolve(json.version);
-      })
+      );
     });
   },
   sbt: () => {
@@ -43,7 +47,11 @@ const filesByPackageManagement = {
             reject(error);
           }
 
-          const version = file.split(":=")[1].replace(/\"/g, "").split("-")[0].replace(/" "/g, "");
+          const version = file
+            .split(":=")[1]
+            .replace(/\"/g, "")
+            .split("-")[0]
+            .trim();
 
           resolve(version);
         }
@@ -74,7 +82,10 @@ try {
   const packageManagement = core.getInput("packageManagement");
   const getVersion = filesByPackageManagement[packageManagement];
 
-  getVersion().then((version) => core.setOutput("version", version));
+  getVersion().then((version) => {
+    console.log("extracted version", version);
+    core.setOutput("version", version);
+  });
 } catch (error) {
   core.setFailed(error.message);
 }
