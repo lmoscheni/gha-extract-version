@@ -33,6 +33,23 @@ const filesByPackageManagement = {
       );
     });
   },
+  sbtRelease: () => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(
+        `${process.env.GITHUB_WORKSPACE || "."}/version.sbt`,
+        "utf8",
+        (error, file) => {
+          if (error) {
+            reject(error);
+          }
+
+          const version = file.split(":=")[1].replace(/\"/g, "").split("-")[0].replace(/" "/g, "");
+
+          resolve(version);
+        }
+      );
+    });
+  },
   mvn: () => {
     let opts = {
       filePath: process.env.GITHUB_WORKSPACE + "/pom.xml",
