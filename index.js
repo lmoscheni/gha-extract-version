@@ -76,6 +76,24 @@ const filesByPackageManagement = {
       });
     });
   },
+  mvnPrepare: () => {
+    let opts = {
+      filePath: process.env.GITHUB_WORKSPACE + "/pom.xml",
+    };
+
+    return new Promise((resolve, reject) => {
+      pomParser.parse(opts, (error, pomResponse) => {
+        console.log("parsing pom.xml from project root");
+
+        if (error) {
+          reject(error);
+        }
+
+        console.log("Successfully parsed pom.xml", pomResponse);
+        resolve(pomResponse.pomObject.project.version.split("-")[0]);
+      });
+    });
+  },
 };
 
 try {
